@@ -29,6 +29,7 @@ const App = () => {
   const [inputValue, setInputValue] = useState('');
   const [animate, setAnimate] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errorAler, setErrorAlert] = useState('');
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${APIKey}`;
 
   const handleInput = (e) => {
@@ -61,12 +62,13 @@ const App = () => {
         setData(data);
         setLoading(false);
         // }, 1500);
-        // console.log('response nya==>', data);        
+        console.log('response nya==>', data);        
       })
 
     }catch(err){
       console.log(err);
       setLoading(false);
+      setErrorAlert(err);
     }
   }
 
@@ -74,12 +76,19 @@ const App = () => {
     getData();
   },[location]);
 
+  useEffect(()=>{
+    const timer = setTimeout(() => {
+      setErrorAlert('')
+    }, 2000);
+    return () => clearTimeout(timer)
+  },[errorAler])
+
   
   if(!data){
     return(
-      <div>
+      <div className='w-full h-screen bg-gradientBg bg-no-repeat bg-cover bg-center flex flex-col justify-center items-center'>
         <div>
-          <ImSpinner8 className='text-5xl animate-spin'/>
+          <ImSpinner8 className='text-5xl animate-spin text-white'/>
         </div>
       </div>
     )
@@ -95,16 +104,16 @@ const App = () => {
       icon = <BsCloudHaze2Fill/>;
       break;
     case 'Rain':
-      icon = <IoMdRainy/>;
+      icon = <IoMdRainy className='text-[#31cafb]'/>;
       break;
     case 'Clear':
-      icon = <IoMdSunny/>;
+      icon = <IoMdSunny className='text-[#ffde33]'/>;
       break;
     case 'Drizzle':
-      icon = <BsCloudDrizzleFill/>;
+      icon = <BsCloudDrizzleFill className='text-[#31cafb]'/>;
       break;
     case 'Snow':
-      icon = <IoMdSnow />;
+      icon = <IoMdSnow className='text-[#31cafb]' />;
       break;   
     case 'Thunderstorm':
       icon = <IoMdThunderstorm/>;
@@ -115,6 +124,11 @@ const App = () => {
 
   return (
       <div className='w-full h-screen bg-gradientBg bg-no-repeat bg-cover bg-center flex flex-col items-center justify-center px-4 lg:px-0'>
+        {errorAler && (
+          <div className='w-full max-w-[90vw] lg:max-w-[450px] bg-[#ff208c] text-white absolute top-2 lg:top-10 p-4 capitalize rounded-md z-10'>
+            {errorAler.response.data.message}
+          </div>
+        )}
         {/* form */}
         <form className={` ${animate? 'animate-shake' : 'animate-none'} h-16 bg-black/30 w-full max-w-[450px] rounded-full backdrop-blur-[32px] mb-8`}>
           <div className='h-full relative flex items-center justify-between p-2'>
