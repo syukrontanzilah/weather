@@ -84,8 +84,20 @@ const App = () => {
   }
 
   return (
-      <div>
-        {icon}
+      <div className='w-full h-screen bg-gradientBg bg-no-repeat bg-cover bg-center flex flex-col items-center justify-center'>
+        {/* form */}
+        <form>
+
+        </form>
+        {/* card */}
+        <div>
+          {/* card top */}
+          <div>card top</div>
+          {/* card body */}
+          <div>card body</div>
+          {/* card bottom */}
+          <div>card bottom</div>
+        </div>
       </div>
   )
 };
