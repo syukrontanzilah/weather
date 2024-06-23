@@ -28,6 +28,7 @@ const App = () => {
   const [location, setLocation] = useState('Bandung');
   const [inputValue, setInputValue] = useState('');
   const [animate, setAnimate] = useState(false);
+  const [loading, setLoading] = useState(false);
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${APIKey}`;
 
   const handleInput = (e) => {
@@ -36,7 +37,6 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('input', inputValue)
     if(inputValue !== ''){
       setLocation(inputValue)
     }
@@ -52,16 +52,21 @@ const App = () => {
 
 
   const getData = async () => {
+    setLoading(true);
     try{
       await axios.get(url)
       .then(res => {
         const data = res.data;
+        // setTimeout(() => {
         setData(data);
+        setLoading(false);
+        // }, 1500);
         // console.log('response nya==>', data);        
       })
 
     }catch(err){
-      console.log(err)
+      console.log(err);
+      setLoading(false);
     }
   }
 
@@ -126,7 +131,14 @@ const App = () => {
         </form>
         {/* card */}
         <div className='w-full max-w-[450px] bg-black/20 min-h-[584px] text-white backdrop-blur-[32px] rounded-[32px] py-12 px-6'>
-          {/* card top */}
+        {
+          loading ? (
+          <div className='w-full h-full flex justify-center items-center'>
+            
+            <ImSpinner8 className='text-white/80 text-5xl animate-spin'/>
+          </div>) : (  
+        <div>
+        {/* card top */}
           <div className='flex items-center gap-x-5'>
             {/* icon */}
             <div className='text-[87px]'>{icon}</div>
@@ -197,7 +209,11 @@ const App = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div>          
+        </div> 
+          )         
+        }
+
         </div>
       </div>
   )
