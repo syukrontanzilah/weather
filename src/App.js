@@ -61,38 +61,41 @@ const App = () => {
   const icoApi = data.weather[0].main;
   switch(icoApi){
     case 'Clouds':
-      icon = <IoMdCloudy size={50}/>;
+      icon = <IoMdCloudy/>;
       break;
     case 'Haze':
-      icon = <BsCloudHaze2Fill size={50} />;
+      icon = <BsCloudHaze2Fill/>;
       break;
     case 'Rain':
-      icon = <IoMdRainy size={50} />;
+      icon = <IoMdRainy/>;
       break;
     case 'Clear':
-      icon = <IoMdSunny size={50} />;
+      icon = <IoMdSunny/>;
       break;
     case 'Drizzle':
-      icon = <BsCloudDrizzleFill size={50} />;
+      icon = <BsCloudDrizzleFill/>;
       break;
     case 'Snow':
-      icon = <IoMdSnow size={50} />;
+      icon = <IoMdSnow />;
       break;   
     case 'Thunderstorm':
-      icon = <IoMdThunderstorm size={50} />;
+      icon = <IoMdThunderstorm/>;
       break;
   }
 
   return (
-      <div className='w-full h-screen bg-gradientBg bg-no-repeat bg-cover bg-center flex flex-col items-center justify-center'>
+      <div className='w-full h-screen bg-gradientBg bg-no-repeat bg-cover bg-center flex flex-col items-center justify-center px-4 lg:px-0'>
         {/* form */}
         <form>
 
         </form>
         {/* card */}
-        <div>
+        <div className='w-full max-w-[450px] bg-black/20 min-h-[584px] text-white backdrop-blur-[32px] rounded-[32px] py-12 px-6'>
           {/* card top */}
-          <div>card top</div>
+          <div>
+            <div className='text-[87px]'>{icon}</div>
+            <div className='text-2xl fonts-semibold'>{data.name}</div>
+          </div>
           {/* card body */}
           <div>card body</div>
           {/* card bottom */}
