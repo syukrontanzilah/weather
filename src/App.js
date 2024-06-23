@@ -25,8 +25,8 @@ const APIKey = 'befbe1072b7242f25bc785584e508a60'
 
 const App = () => {
   const [data, setData] = useState(null);
-  const [location, setLocation] = useState('Jakarta');
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${APIKey}`;
+  const [location, setLocation] = useState('Bandung');
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${APIKey}`;
 
   const getData = async () => {
     try{
@@ -83,6 +83,8 @@ const App = () => {
       break;
   }
 
+  const date = new Date()
+
   return (
       <div className='w-full h-screen bg-gradientBg bg-no-repeat bg-cover bg-center flex flex-col items-center justify-center px-4 lg:px-0'>
         {/* form */}
@@ -92,14 +94,59 @@ const App = () => {
         {/* card */}
         <div className='w-full max-w-[450px] bg-black/20 min-h-[584px] text-white backdrop-blur-[32px] rounded-[32px] py-12 px-6'>
           {/* card top */}
-          <div>
+          <div className='flex items-center gap-x-5'>
+            {/* icon */}
             <div className='text-[87px]'>{icon}</div>
-            <div className='text-2xl fonts-semibold'>{data.name}</div>
+            <div>
+            {/* country name */}
+            <div className='text-2xl fonts-semibold'>
+              {data.name}, {data.sys.country}
+              </div>
+              {/* date */}
+              <div>
+                {date.getUTCDate()}/{date.getUTCMonth()+1}/{date.getUTCFullYear()}
+              </div>
+            </div>
+
           </div>
           {/* card body */}
-          <div>card body</div>
+          <div className='my-20'>
+            <div className='flex justify-center items-center'>
+              {/* temp */}
+              <div className='text-[144px] leading-none font-light'>{parseInt(data.main.temp)}
+              </div>
+              {/* celcius icon */}
+              <div className='text-4xl'>
+                <TbTemperatureCelsius/>
+              </div>
+            </div>
+            {/* weather description */}
+            <div className='capitalize text-center'>{data.weather[0].description}</div>
+          </div>
           {/* card bottom */}
-          <div>card bottom</div>
+          <div className='max-w-[378px] mx-auto flex flex-col gap-y-6'>
+            <div className='flex justify-between'>
+              <div className='flex items-center gap-x-2'>
+                {/* icon */}
+                <div className='text-[20px]'><BsEye/></div>
+                <div>
+                  Visibility <span className='ml-2'>{data.visibility / 1000} km</span>
+                </div>
+              </div>
+              <div className='flex items-center gap-x-2'>
+                {/* icon */}
+                <div className='text-[20px]'>
+                  <BsThermometer/>
+                </div>
+                <div className='flex'>
+                  Feels like 
+                  <div className='flex ml-2'>{parseInt(data.main.feels_like)}
+                    <TbTemperatureCelsius/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
   )
